@@ -1,12 +1,12 @@
 {% extends "network/layout.html" %}
-{% load static tailwind_tags %}
+{% load static %}
 
 {% block body %}
-    <div class="flex flex-col items-center justify-center w-full h-full border-black">
+    <div class="">
 
         <form action="" method="post">
             {% csrf_token %}
-            <div class="flex flex-col">
+            <div class="">
                 <label for="username">Share your views:</label>
                 <textarea name="post" id="post" cols="30" rows="10" class=""></textarea>
             </div>
