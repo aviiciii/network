@@ -2,15 +2,23 @@
 {% load static %}
 
 {% block body %}
-    <div class="">
 
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="">
-                <label for="username">Share your views:</label>
-                <textarea name="post" id="post" cols="30" rows="10" class=""></textarea>
-            </div>
-        </form>
-    </div>
+
+<div class="spacing_newpost">
+    <form action="{% url 'newpost' %}" method='post'>
+        {% csrf_token %}
+        <!-- Message input -->
+        <div class="form-outline mb-4">
+            <textarea class="form-control" name="post" id="post" rows="4"></textarea>
+            <label class="form-label" for="post">Share your ideas...</label>
+        </div>
+        <!-- Submit button -->
+        <div class="button_spacing">
+            <button type="submit" class="btn btn-primary btn-block mb-4">Post</button>
+        </div>
+        
+    </form>
+</div>
+
 
 {% endblock %}
