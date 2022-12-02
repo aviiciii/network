@@ -122,3 +122,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#Redirect to login page if user is not authenticated
+LOGIN_REDIRECT_URL = '/login'
