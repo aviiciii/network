@@ -9,7 +9,7 @@ def newpost(request):
     if request.method == 'POST':
         post = request.POST['post']
         user = request.user
-        new_post = Post(user=user, content=post)
+        new_post = Post(user=user, content=post.strip())
         new_post.save()
         return render(request, 'network/index.html')
         

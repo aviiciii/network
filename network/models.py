@@ -7,6 +7,7 @@ class User(AbstractUser):
 
 
 class Post(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     content = models.TextField(blank=True)
     likes=models.ManyToManyField(User, blank=True, related_name="liked_posts")
