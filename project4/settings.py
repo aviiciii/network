@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'network',
+    'newpost',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
