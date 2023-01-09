@@ -1,0 +1,106 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+
+    <div class="userdetails">
+        
+        <div class="spacing">
+            <div class="card mb-3" style="width: 60rem;">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h4 class="card-title">Username: {{ profile.username }}</h4>
+                            <h5 class="card-subtitle mb-2 text-muted">Email: {{ profile.email }}</h5>
+                            
+                            {% if user.is_authenticated %}
+                                {% if user.username != profile.username %}
+                                    {% if is_follower %}
+                                        <a href="{% url 'unfollow' profile.username %}" class="btn btn-primary">Unfollow</a>
+                                    {% else %}
+                                        <a href="{% url 'follow' profile.username %}" class="btn btn-primary">Follow</a>
+                                        
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                            
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">Followers: &nbsp; {{followers|length}}</h5>
+                            <h5 class="card-title">Following: &nbsp; {{following|length}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="userposts">
+        <div class="spacing">
+            <!-- Posts Starts -->
+            {% for post in page_obj %}
+            <div class="card">
+                <div class="card-body">
+                    <a class="post_user" href="#"><h5 class="card-title">{{post.user}}</h5></a>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp }}</h6>
+                    <p class="card-text">{{ post.content }}</p>
+                    <a href="#" class="card-link">Like</a>
+                    <a href="#" class="card-link">
+                        {% if post.like %}
+                            {{ post.likes }}
+                        {% else %}
+                            0 Likes
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+        
+        
+
+            <!-- Posts Ends -->
+
+            <!-- Pagination Starts -->
+            <nav id="pagination">
+                <ul class="pagination">
+                    
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for page in total_pages %}
+                        {% if page_obj.number == page %}
+                            <li class="page-item active disabled"><a class="page-link" href="#">{{ page }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{page}}">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <!-- Pagination Ends -->
+        </div>
+    </div>
+
+
+{% endblock %}
