@@ -1,46 +1,63 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    {% for post in page_obj %}
-        {{ post.user }}<br>
-        {{ post.content }}<br>
-        {{ post.timestamp }}<br>
-        {% if post.like %}
-        {{ post.likes }}<br>
-        {% else %}
-        0 likes
-        {% endif %}
-    {% endfor %}
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            
-            {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-            {% endif %}
+    <div class="spacing">
+        <!-- Posts Starts -->
+        {% for post in page_obj %}
+        <div class="card">
+            <div class="card-body">
+                <a class="post_user" href="#"><h5 class="card-title">{{post.user}}</h5></a>
+                <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp }}</h6>
+                <p class="card-text">{{ post.content }}</p>
+                <a href="#" class="card-link">Like</a>
+                <a href="#" class="card-link">
+                    {% if post.like %}
+                        {{ post.likes }}
+                    {% else %}
+                        0 Likes
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+    
+    
 
-            {% for page in total_pages %}
-                {% if page_obj.number == page %}
-                    <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
-                {% else %}
-                    <li class="page-item"><a class="page-link" href="#">{{ page }}</a></li>
+        <!-- Posts Ends -->
+
+        <!-- Pagination Starts -->
+        <nav id="pagination">
+            <ul class="pagination">
+                
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
                 {% endif %}
-            {% endfor %}
-            
 
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
+                {% for page in total_pages %}
+                    {% if page_obj.number == page %}
+                        <li class="page-item active disabled"><a class="page-link" href="#">{{ page }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{page}}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                
 
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <!-- Pagination Ends -->
+    </div>
 
 {% endblock %}
