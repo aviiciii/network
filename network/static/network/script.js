@@ -26,8 +26,6 @@ addEventListener('DOMContentLoaded', (event) => {
             // save edits
             var post = document.getElementById('post-'+e.target.id);
             var edit = document.getElementById('edit-'+e.target.id);
-            post.style.display='block';
-            edit.style.display='none';
 
             // get csrf and textarea content from page
             let csrftoken = document.querySelector("input[name='csrfmiddlewaretoken']").value;
@@ -48,8 +46,12 @@ addEventListener('DOMContentLoaded', (event) => {
             .then(result=>
                 document.getElementById('content-'+e.target.id).innerHTML=result["data"]  
             )
+
+            // show post and hide edit form
+            post.style.display='block';
+            edit.style.display='none';
         }
-        
+
 
 
     })
