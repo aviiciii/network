@@ -21,4 +21,6 @@ urlpatterns = [
     path("", include("network.urls")),
     path('newpost/', include('newpost.urls')),
     path('profile/', include('profilepage.urls')),
+    path('followingfeed/', include('followingfeed.urls')),
+
 ]

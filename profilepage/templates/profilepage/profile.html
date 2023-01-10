@@ -48,7 +48,7 @@
             {% for post in page_obj %}
             <div class="card">
                 <div class="card-body">
-                    <a class="post_user" href="#"><h5 class="card-title">{{post.user}}</h5></a>
+                    <h5 class="card-title">{{post.user}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp }}</h6>
                     <p class="card-text">{{ post.content }}</p>
                     <a href="#" class="card-link">Like</a>

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'network',
     'newpost',
     'profilepage',
+    'followingfeed',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
