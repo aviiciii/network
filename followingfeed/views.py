@@ -21,6 +21,4 @@ def following_feed(request):
     page_obj = paginator.get_page(page_number)
     total_pages = range(1, paginator.num_pages+1)
 
-
-
     return render(request, 'followingfeed/followingfeed.html', {'page_obj': page_obj, 'total_pages': total_pages})

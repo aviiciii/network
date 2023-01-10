@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.shortcuts import render
+import json
+from django.http import JsonResponse
 
 from .models import Post, User
 
@@ -16,6 +18,8 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     total_pages = range(1, paginator.num_pages+1)
+
+
     return render(request, 'network/index.html', {'page_obj': page_obj, 'total_pages': total_pages})
 
 
@@ -69,3 +73,15 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+def edit(request, post_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        edit_post=Post.objects.get(pk=post_id)
+        edit_post.content= data["content"]
+        edit_post.save()
+        return JsonResponse({
+            "message":"Change Successful",
+            "data": data["content"]
+        })

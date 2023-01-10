@@ -32,3 +32,15 @@
     align-items: center;
     margin: 3vh 12vw;
 }
+
+#edit{
+    outline: none;
+    box-shadow: none;
+    padding-left: 20px;
+    margin: 0;
+
+}
+
+/* popup */
+
+
