@@ -5,7 +5,6 @@
     <script src="{% static 'network/script.js' %}"></script>
     
 
-
     {% csrf_token %}
     <div class="spacing">
         <!-- Posts Starts -->
@@ -17,31 +16,19 @@
                 <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp }}</h6>
                 <p id="content-{{post.pk}}"class="card-text">{{ post.content }}</p>
                 
-
-                {% comment %} <btn id="{{post.pk}}" class="like btn">
-                    {% if user in post.likes %}
-                        <img id="like-{{post.pk}}" data-like="liked" src="{% static 'network/img/liked.png' %}">
-
-                    {% else %}
-                        <img id="like-{{post.pk}}" data-like="unliked" src="{% static 'network/img/unliked.png' %}">
-                    {% endif %}
-                    
-                </btn> {% endcomment %}
-
-                    {% if user in post.likes.all %}
-                        <input id="like-{{post.pk}}" type="image" data-postid={{post.pk}} data-status="liked" src="{% static 'network/img/liked.png' %}" class="like btn">
-
-                    {% else %}
-                        <input id="like-{{post.pk}}" type="image" data-postid={{post.pk}} data-status="unliked" src="{% static 'network/img/unliked.png' %}" class="like btn">
-                    {% endif %}
-                    
+                <!-- likes -->
+                {% if user in post.likes.all %}
+                    <input id="like-{{post.pk}}" type="image" data-postid={{post.pk}} data-status="liked" src="{% static 'network/img/liked.png' %}" class="like btn">
+                {% else %}
+                    <input id="like-{{post.pk}}" type="image" data-postid={{post.pk}} data-status="unliked" src="{% static 'network/img/unliked.png' %}" class="like btn">
+                {% endif %}
                 </input>
-                
-            
-                
+
                 <a href="#" id="nooflikes-{{post.pk}}" class="card-link">
-                        {{ post.likes.all.count }} Likes &nbsp
+                    {{ post.likes.all.count }} Likes &nbsp
                 </a>
+
+                <!-- edit button -->
                 {% if user.is_authenticated %}
                     {% if user == post.user %}
                         <btn id="{{post.pk}}" class="btn btn-primary edit">Edit</btn>
@@ -64,16 +51,11 @@
                         </div>
                 {% endif %}
             {% endif %}
-
-
-            
         </div>
         <br>
         {% endfor %}
-    
-    
-
         <!-- Posts Ends -->
+
 
         <!-- Pagination Starts -->
         <nav id="pagination">
@@ -95,7 +77,6 @@
                     {% endif %}
                 {% endfor %}
                 
-
                 {% if page_obj.has_next %}
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">

@@ -1,6 +1,10 @@
 {% extends "network/layout.html" %}
+{% load static %}
+
 
 {% block body %}
+<script src="{% static 'network/script.js' %}"></script>
+{% csrf_token %}
 
     <div class="spacing">
         <!-- Posts Starts -->
@@ -10,22 +14,24 @@
                 <a class="post_user" href="{% url 'profile' post.user %}"><h5 class="card-title">{{post.user}}</h5></a>
                 <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp }}</h6>
                 <p class="card-text">{{ post.content }}</p>
-                <a href="#" class="card-link">Like</a>
-                <a href="#" class="card-link">
-                    {% if post.like %}
-                        {{ post.likes }}
-                    {% else %}
-                        0 Likes
-                    {% endif %}
+
+                <!-- likes -->
+                {% if user in post.likes.all %}
+                    <input id="like-{{post.pk}}" type="image" data-postid={{post.pk}} data-status="liked" src="{% static 'network/img/liked.png' %}" class="like btn">
+                {% else %}
+                    <input id="like-{{post.pk}}" type="image" data-postid={{post.pk}} data-status="unliked" src="{% static 'network/img/unliked.png' %}" class="like btn">
+                {% endif %}
+                </input>
+
+                <a href="#" id="nooflikes-{{post.pk}}" class="card-link">
+                    {{ post.likes.all.count }} Likes &nbsp
                 </a>
             </div>
         </div>
         <br>
         {% endfor %}
-    
-    
-
         <!-- Posts Ends -->
+
 
         <!-- Pagination Starts -->
         <nav id="pagination">
