@@ -52,7 +52,31 @@ addEventListener('DOMContentLoaded', (event) => {
             edit.style.display='none';
         }
 
+        // Like and Unlike
+        if (e.target.className === 'like btn'){
+            const img = document.getElementById(e.target.id);
+            const img_likes = document.getElementById('nooflikes-'+img.dataset.postid)
 
-
+            let csrftoken = document.querySelector("input[name='csrfmiddlewaretoken']").value;
+            
+            // send data to like/unlike the post
+            fetch('/like/'+img.dataset.postid,{
+                method:'POST',
+                headers:{
+                    "Content-type":"application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify({
+                    status: img.dataset.status
+                })
+            })
+            .then(response => response.json())
+            .then(result=>{
+                
+                img.src= result["path"]
+                img.dataset.status= result["status"]
+                img_likes.innerText=result["nooflikes"]+' Likes'    
+            })
+        }
     })
 });

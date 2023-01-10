@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 import json
 from django.http import JsonResponse
-
+from django.templatetags.static import static
 from .models import Post, User
 
 
@@ -18,7 +18,6 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     total_pages = range(1, paginator.num_pages+1)
-
 
     return render(request, 'network/index.html', {'page_obj': page_obj, 'total_pages': total_pages})
 
@@ -77,11 +76,48 @@ def register(request):
 
 def edit(request, post_id):
     if request.method == 'POST':
+        
         data = json.loads(request.body)
+
         edit_post=Post.objects.get(pk=post_id)
         edit_post.content= data["content"]
         edit_post.save()
+        
         return JsonResponse({
             "message":"Change Successful",
             "data": data["content"]
+        })
+
+def like(request, post_id):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        like_post = Post.objects.get(pk=post_id)
+        
+        if data["status"]=='unliked':
+            like_post.likes.add(request.user)
+            like_post.save()
+            message='Liked successfully'
+            likes = like_post.like_count()
+            status= 'liked'
+            print(likes)
+            path=static('network/img/liked.png')
+
+        elif data["status"]=='liked':
+            like_post.likes.remove(request.user)
+            like_post.save()
+            message='Unliked successfully'
+            path=static('network/img/unliked.png')
+            likes = like_post.like_count()
+            status= 'unliked'
+            print(likes)
+        else:
+            print('some typo')
+
+        return JsonResponse({
+            "message":message,
+            "path":path,
+            "nooflikes":likes,
+            "status": status
         })

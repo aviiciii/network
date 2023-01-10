@@ -12,7 +12,7 @@ class Post(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     content = models.TextField(blank=True)
-    likes=models.ManyToManyField(User, blank=True, related_name="liked_posts")
+    likes = models.ManyToManyField(User, blank=True, related_name="liked_posts")
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -26,3 +26,6 @@ class Post(models.Model):
             "user": self.user.username,
             "likes": [user.username for user in self.likes.all()]
         }
+
+    def like_count (self):
+        return self.likes.all().count()
